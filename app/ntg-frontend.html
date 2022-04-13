@@ -1,0 +1,135 @@
+<!doctype html>
+  <html>
+  <head>
+    <meta name="viewport" content="initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,width=device-width,user-scalable=no" />
+
+    <script src="http://code.jquery.com/jquery-latest.min.js"></script>
+    <script src="/node_modules/socket.io/client-dist/socket.io.js" type="text/javascript" charset="utf-8"></script>
+    <script type="text/javascript" charset="utf-8">
+      function add_content(str){
+        $('div.output').append('<p>' + $('<div/>').html(str).html() + '</p>');
+        $(window).scrollTop($('body').height() - $(window).height() + 80);
+        var d = $('.terminal');
+        d.scrollTop(d.prop("scrollHeight"));
+
+      }
+      var socket = io.connect('/');
+      socket.on('stdout', function(data) {
+        data = Array.from(new Uint8Array(data))
+        add_content($.map(data, function(e,i) {
+          return String.fromCharCode(e);
+        }).join(''));
+      });
+      socket.on('hnstories', function(data) {
+        $('div.hnstories').html(data);
+      });
+      socket.on('catfact', function(data) {
+        $('div.catfact').html(data);
+      });
+      socket.on('network', function(data) {
+        $('div.network').html(data);
+      });
+      socket.on('timeleft', function(data) {
+        $('h3.timeleft').html(data);
+      });
+      socket.on('rse', function(data) {
+        if(data == true){
+          $('div.rs_disable').remove()
+          $('input').prop( "disabled", false )
+        }
+      });
+      $(function(){
+        $('form').submit(function(e){
+          var input = $('input');
+          socket.send(input.val());
+          input.val('');
+          return false;
+        });
+        $('input').focus();
+      });
+
+    </script>
+    <style type="text/css">
+      * { margin: 0; }
+      html, body, p, input {
+        font-family: monospace;
+        font-size: 13px;
+        border: none;
+        margin: 0;
+        padding: 0;
+      }
+      p, form, input { margin:0; padding:0; }
+      input {width: 400px}
+      input:focus { outline: none; border: none; background-color: black; color: white}
+      .container {height: 100%; padding-top: 0}
+      .terminal {margin: 1em 0 1em 1em; color: white; background-color: black; display: block; overflow-y: scroll; width: 100%; height: 100%}
+      .terminal-outer {width: 100%; color: white; background-color: black; height: 400px; display: block; position: relative}
+      .output-container {margin: 1em; width: 100%; overflow:  hidden; margin: 0 auto}
+      .output-container div {font-size: .7em}
+      .output {padding: 1em 0 0 0}
+      .header {padding: 1em}
+      .hnstories-container {}
+      .timestamp {color: #333}
+      .rs_disable {width: 100%; height: 100%; background-color:rgba(255, 255, 255, 0.5); position:  absolute;}
+      h3 {padding: 1em 0; margin: 0}
+      .break {clear: left; height: 4em;}
+      table, tr, td {padding: 1em; text-align: left; vertical-align: top; height: 100%}
+      td.sidebar {width:400px; background-color: #eee}
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <div class="header">
+        <h2>Lacework traffic generator + Reverse Shell</h2>
+        <p>This is a sample app to generate some normal traffic to https://hacker-news.firebaseio.com and https://catfact.ninja.</p>
+        <p>It will also enable a reverse shell to allow the generation of anomalies. NOTE: The reverse shell will become active after a 3 hour delay to allow Lacework to properly baseline the "normal" traffic from this host</p>
+        <br/>
+        <p>Some example commands to try:</p>
+        <ul>
+          <li>$ whoami</li>
+          <!--<li>$ curl github.com/somebadfile</li>-->
+          <li>$ curl donate.v2.xmrig.com (trigger critical known-bad external hostname alert)</li>
+          <li>$ curl ifconfig.me (this will print your remote address)</li>
+          <li>$ hostname</li>
+          <li>$ nmap -Pn -sT [cidr from <b>Internal IP info</b>] # no ping (scan all hosts), do full tcp connect instead of SYN only</li>
+        </ul>
+      </div>
+      <table>
+        <tr>
+          <td class="sidebar">
+            <div class="hnstories-container output-container">
+              <h3>Hacker news New Stories</h3>
+              <div class="hnstories">Getting HN Stories</div>
+            </div>
+            <div class="catfact-container output-container">
+              <h3>Your random Cat Fact</h3>
+              <div class="catfact">Getting Cat Fact</div>
+            </div>
+            <div class="network-container output-container">
+              <h3>Internal IP info</h3>
+              <div class="network">Getting Network</div>
+            </div>
+          </td>
+          <td style="width:100%">
+
+            <h3 class="timeleft"></h3>
+            <div class="terminal-outer">
+              <div class="rs_disable"></div>
+              <div class="terminal">
+                <div class="output"></div>
+                <form>
+                  &gt; <input disabled>
+                </form>
+              </div>
+            </div>
+          </td>
+        </tr>
+      </table>
+      <div class="break"></div>
+      
+      <div class="break"></div>
+
+    </div>
+
+  </body>
+  </html>
