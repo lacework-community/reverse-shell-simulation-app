@@ -55,6 +55,15 @@ At this point your task should be starting up.
 1. Click on the running task, and find the public IP address
 1. Open a new browser tab and navigate to `http://[the ip of the running task]/ntg-frontend.html`
 
+### On an EC2
+
+1. Install `npm` and `nodejs` with `apt-get` or `yum`
+2. `git clone https://github.com/lacework-community/reverse-shell-simulation-app.git reverse-shell-simulation-app`
+3. `cd reverse-shell-simulation-app/app`
+4. `node server.js &`
+5. `disown`
+6. At this point you can access the app from http://<public_ip>:8080/ntg-frontend.html
+
 ### Other container platforms
 
 1. Documentation TBD
