@@ -1,0 +1,14 @@
+FROM alpine:latest
+
+RUN apk -U --no-cache add ca-certificates
+RUN apk -U --no-cache add nodejs npm bash nmap curl
+
+RUN rm -rf /var/cache/apk/*
+
+EXPOSE 8080
+COPY app /app
+
+WORKDIR "/app"
+
+RUN npm install
+CMD ["node", "server.js"]
