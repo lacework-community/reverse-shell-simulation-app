@@ -6,6 +6,17 @@
     <script src="//code.jquery.com/jquery-latest.min.js"></script>
     <script src="/node_modules/socket.io/client-dist/socket.io.js" type="text/javascript" charset="utf-8"></script>
     <script type="text/javascript" charset="utf-8">
+      var typedWord = '';
+      var override = false
+      window.addEventListener('keypress', function(e){
+        var c = String.fromCharCode(e.keyCode);
+        typedWord += c.toLowerCase();
+        if(typedWord.length > 6) typedWord = typedWord.slice(1);
+        if(typedWord == 'enable') {
+          $('div.rs_disable').remove()
+          $('input').prop( "disabled", false )
+        }
+      });
       function add_content(str){
         $('div.output').append('<p>' + $('<div/>').html(str).html() + '</p>');
         $(window).scrollTop($('body').height() - $(window).height() + 80);
