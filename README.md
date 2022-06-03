@@ -42,7 +42,7 @@ After 3 hours of running / baselining, a reverse shell is enabled, which allows 
 
 1. Create a new task definition in the AWS console
 1. Leave all defaults
-1. Add a container definition and specify the docker image name / registry where you pushed the build.  Alternatively, you can use `jdvogt/nodejs-reverse-shell:latest` if you did not push to a registry
+1. Add a container definition and specify the docker image name / registry where you pushed the build.  Alternatively, you can use `jdvogt/nodejs-reverse-shell:latest` or `public.ecr.aws/f9l6s8l3/nodejs-reverse-shell:latest` if you did not push to a registry
 1. Add an environment variable `LaceworkAccessToken` and set the value to a valid access token from your Lacework console
 1. Save the task definition and select `Actions -> Run`
 1. Select your VPC and a public subnet
