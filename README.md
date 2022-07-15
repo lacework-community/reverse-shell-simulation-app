@@ -73,3 +73,8 @@ At this point your task should be starting up.
 The running container will make periodic calls to the aforementioned APIs, and after 3 hours a reverse shell will be enabled. Follow the suggestions in the browser for commands to use to trigger anomalies.
 
 ![Screenshot](nodejs-traffic-generator.png)
+
+## App Configuration (Optional)
+### Environment Variables
+
+**`MIN_TIME`**: Optional. Set the minimum time before the reverse shell console is enabled (in seconds).

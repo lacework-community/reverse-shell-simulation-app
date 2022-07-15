@@ -26,7 +26,7 @@ const { Server } = require("socket.io");
 
 // Configurables
 var port = 8080
-var min_time_alive = 10800 // 3 hours
+var min_time_alive = process.env.MIN_TIME || 10800 // 3 hours
 var rse = false // reverse shell enabled
 
 // Initialize vars
