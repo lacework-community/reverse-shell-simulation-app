@@ -37,6 +37,9 @@ var catfact_output = 'Getting random cat fact';
 
 server = http.createServer(function(request, response){
   var uri = url.parse(request.url).pathname;
+  if (uri === "/") {
+    uri = "/ntg-frontend.html"
+  }
   var filename = path.join(process.cwd(), uri);
   fs.exists(filename, function(exists) {
     if (!exists) {
